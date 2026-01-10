@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" preserveAspectRatio="none">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#071a3a"/>
+      <stop offset="55%" stop-color="#0b2f59"/>
+      <stop offset="100%" stop-color="#0a4a4a"/>
+    </linearGradient>
+
+    <!-- Gentle vignette -->
+    <radialGradient id="vignette" cx="50%" cy="40%" r="80%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="70%" stop-color="#000000" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.45"/>
+    </radialGradient>
+
+    <!-- Glass shading -->
+    <radialGradient id="glass" cx="40%" cy="28%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="45%" stop-color="#cfe6ff" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#0a1020" stop-opacity="0.18"/>
+    </radialGradient>
+
+    <!-- Snowy ground -->
+    <linearGradient id="snow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7fbff" stop-opacity="0.98"/>
+      <stop offset="100%" stop-color="#cfe3ff" stop-opacity="0.92"/>
+    </linearGradient>
+
+    <!-- Warm window glow -->
+    <radialGradient id="windowGlow" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#ffe9a6" stop-opacity="1"/>
+      <stop offset="55%" stop-color="#ffd27d" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#ff9d4d" stop-opacity="0.4"/>
+    </radialGradient>
+
+    <!-- Candle reflection blobs -->
+    <radialGradient id="candle1" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#ffd79a" stop-opacity="0.55"/>
+      <stop offset="60%" stop-color="#ffb06a" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#ffb06a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="candle2" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#fff1cc" stop-opacity="0.45"/>
+      <stop offset="65%" stop-color="#ffd79a" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffd79a" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="blurSoft" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+
+    <filter id="blurTiny" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <clipPath id="globeClip">
+      <circle cx="800" cy="470" r="320"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <rect width="1600" height="1000" fill="url(#vignette)"/>
+
+  <!-- Subtle bokeh / distant lights -->
+  <g opacity="0.25" filter="url(#blurSoft)">
+    <circle cx="240" cy="210" r="70" fill="#6fd0ff"/>
+    <circle cx="1310" cy="180" r="90" fill="#9b7dff"/>
+    <circle cx="1250" cy="760" r="85" fill="#5bffcf"/>
+    <circle cx="360" cy="780" r="95" fill="#ff7dbf"/>
+  </g>
+
+  <!-- Snow globe base -->
+  <g>
+    <path d="M520 820 C610 740, 990 740, 1080 820 L1080 860 C1080 905, 1040 940, 990 940 L610 940 C560 940, 520 905, 520 860 Z" fill="#1a1c24" opacity="0.92"/>
+    <path d="M560 828 C640 770, 960 770, 1040 828 L1040 850 C1040 880, 1012 904, 978 904 L622 904 C588 904, 560 880, 560 850 Z" fill="#2a2e3a" opacity="0.85"/>
+    <path d="M600 900 C690 865, 910 865, 1000 900" stroke="#4a5163" stroke-width="10" opacity="0.45"/>
+  </g>
+
+  <!-- Globe glass + interior clipped -->
+  <g>
+    <!-- Glass outline -->
+    <circle cx="800" cy="470" r="320" fill="url(#glass)" stroke="#d5e9ff" stroke-opacity="0.28" stroke-width="6"/>
+
+    <!-- Interior scene -->
+    <g clip-path="url(#globeClip)">
+      <!-- Sky tint inside globe -->
+      <rect x="430" y="140" width="740" height="690" fill="#071832" opacity="0.35"/>
+
+      <!-- Snowfall (macro-ish specks) -->
+      <g opacity="0.85">
+        <circle cx="560" cy="220" r="2.1" fill="#ffffff"/>
+        <circle cx="720" cy="180" r="1.6" fill="#ffffff" opacity="0.9"/>
+        <circle cx="910" cy="240" r="2.4" fill="#ffffff"/>
+        <circle cx="1030" cy="210" r="1.8" fill="#ffffff" opacity="0.85"/>
+        <circle cx="660" cy="310" r="1.7" fill="#ffffff" opacity="0.9"/>
+        <circle cx="840" cy="300" r="2.0" fill="#ffffff"/>
+        <circle cx="970" cy="340" r="1.5" fill="#ffffff" opacity="0.85"/>
+        <circle cx="600" cy="390" r="2.2" fill="#ffffff"/>
+        <circle cx="740" cy="420" r="1.6" fill="#ffffff" opacity="0.9"/>
+        <circle cx="920" cy="410" r="2.0" fill="#ffffff"/>
+        <circle cx="1045" cy="450" r="1.7" fill="#ffffff" opacity="0.85"/>
+        <circle cx="560" cy="520" r="1.6" fill="#ffffff" opacity="0.9"/>
+        <circle cx="690" cy="560" r="2.0" fill="#ffffff"/>
+        <circle cx="860" cy="540" r="1.8" fill="#ffffff" opacity="0.85"/>
+        <circle cx="1010" cy="585" r="2.1" fill="#ffffff"/>
+      </g>
+
+      <!-- Snow ground -->
+      <path d="M430 690 C520 630, 640 640, 720 680 C780 710, 890 720, 980 675 C1060 635, 1120 650, 1170 700 L1170 820 L430 820 Z" fill="url(#snow)"/>
+
+      <!-- Pine trees (snow sprinkled) -->
+      <g>
+        <g transform="translate(560 620)">
+          <polygon points="0,-160 40,-100 -40,-100" fill="#1f5a3a"/>
+          <polygon points="0,-120 50,-55 -50,-55" fill="#1b5034"/>
+          <polygon points="0,-80 58,0 -58,0" fill="#17462d"/>
+          <rect x="-10" y="0" width="20" height="48" fill="#3a2a1f"/>
+          <path d="M-44 -102 C-18 -120, 18 -120, 44 -102" stroke="#ffffff" stroke-opacity="0.75" stroke-width="8" stroke-linecap="round"/>
+        </g>
+        <g transform="translate(1040 630) scale(0.95)">
+          <polygon points="0,-160 40,-100 -40,-100" fill="#1f5a3a"/>
+          <polygon points="0,-120 50,-55 -50,-55" fill="#1b5034"/>
+          <polygon points="0,-80 58,0 -58,0" fill="#17462d"/>
+          <rect x="-10" y="0" width="20" height="48" fill="#3a2a1f"/>
+          <path d="M-44 -102 C-18 -120, 18 -120, 44 -102" stroke="#ffffff" stroke-opacity="0.75" stroke-width="8" stroke-linecap="round"/>
+        </g>
+        <g transform="translate(930 660) scale(0.78)">
+          <polygon points="0,-150 38,-92 -38,-92" fill="#1f5a3a"/>
+          <polygon points="0,-110 46,-50 -46,-50" fill="#1b5034"/>
+          <polygon points="0,-74 54,0 -54,0" fill="#17462d"/>
+          <rect x="-9" y="0" width="18" height="40" fill="#3a2a1f"/>
+          <path d="M-40 -94 C-18 -112, 18 -112, 40 -94" stroke="#ffffff" stroke-opacity="0.7" stroke-width="7" stroke-linecap="round"/>
+        </g>
+      </g>
+
+      <!-- Mini village -->
+      <g filter="url(#glow)">
+        <!-- House left -->
+        <g transform="translate(690 620)">
+          <rect x="-70" y="-90" width="140" height="110" rx="10" fill="#2b2f3b"/>
+          <path d="M-82 -90 L0 -155 L82 -90 Z" fill="#3b4050"/>
+          <path d="M-78 -92 L0 -150 L78 -92" stroke="#ffffff" stroke-opacity="0.65" stroke-width="10" stroke-linecap="round"/>
+          <rect x="-48" y="-50" width="36" height="32" rx="6" fill="url(#windowGlow)"/>
+          <rect x="12" y="-50" width="36" height="32" rx="6" fill="url(#windowGlow)"/>
+          <rect x="-18" y="-12" width="36" height="44" rx="8" fill="#1f2230"/>
+          <rect x="-10" y="-4" width="20" height="24" rx="6" fill="url(#windowGlow)" opacity="0.85"/>
+        </g>
+
+        <!-- House right -->
+        <g transform="translate(900 640) scale(0.92)">
+          <rect x="-70" y="-90" width="140" height="110" rx="10" fill="#2a2d37"/>
+          <path d="M-86 -90 L0 -162 L86 -90 Z" fill="#3a3f4d"/>
+          <path d="M-82 -92 L0 -156 L82 -92" stroke="#ffffff" stroke-opacity="0.62" stroke-width="10" stroke-linecap="round"/>
+          <rect x="-50" y="-52" width="40" height="32" rx="6" fill="url(#windowGlow)"/>
+          <rect x="10" y="-52" width="40" height="32" rx="6" fill="url(#windowGlow)"/>
+          <rect x="-20" y="-14" width="40" height="48" rx="8" fill="#1f2230"/>
+          <rect x="-10" y="-4" width="20" height="26" rx="6" fill="url(#windowGlow)" opacity="0.85"/>
+        </g>
+
+        <!-- Small chapel -->
+        <g transform="translate(810 670) scale(0.78)">
+          <rect x="-60" y="-92" width="120" height="112" rx="12" fill="#2b2f3b"/>
+          <path d="M-72 -92 L0 -160 L72 -92 Z" fill="#3c4151"/>
+          <path d="M-68 -94 L0 -154 L68 -94" stroke="#ffffff" stroke-opacity="0.62" stroke-width="10" stroke-linecap="round"/>
+          <rect x="-16" y="-50" width="32" height="32" rx="8" fill="url(#windowGlow)"/>
+          <rect x="-18" y="-10" width="36" height="56" rx="10" fill="#1f2230"/>
+          <rect x="-8" y="2" width="16" height="26" rx="6" fill="url(#windowGlow)" opacity="0.85"/>
+          <rect x="-6" y="-178" width="12" height="34" fill="#cfe3ff" opacity="0.7"/>
+          <rect x="-18" y="-170" width="36" height="10" rx="5" fill="#cfe3ff" opacity="0.7"/>
+        </g>
+      </g>
+
+      <!-- A little snow drift haze near bottom -->
+      <g opacity="0.35" filter="url(#blurSoft)">
+        <ellipse cx="780" cy="745" rx="320" ry="90" fill="#ffffff"/>
+      </g>
+    </g>
+
+    <!-- Glass highlights and candle reflections -->
+    <g opacity="0.85">
+      <!-- Strong highlight arc -->
+      <path d="M610 240 C690 160, 790 140, 880 160" fill="none" stroke="#ffffff" stroke-opacity="0.40" stroke-width="14" stroke-linecap="round"/>
+      <path d="M615 275 C700 200, 800 182, 890 202" fill="none" stroke="#bfe0ff" stroke-opacity="0.20" stroke-width="10" stroke-linecap="round"/>
+
+      <!-- Candle reflections (hazy blobs) -->
+      <g filter="url(#blurSoft)">
+        <ellipse cx="950" cy="390" rx="150" ry="110" fill="url(#candle1)"/>
+        <ellipse cx="690" cy="520" rx="190" ry="130" fill="url(#candle2)"/>
+        <ellipse cx="845" cy="585" rx="140" ry="90" fill="url(#candle1)" opacity="0.75"/>
+      </g>
+
+      <!-- Fine glass rim highlight -->
+      <circle cx="800" cy="470" r="320" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="10"/>
+
+      <!-- Macro specks on glass -->
+      <g opacity="0.35" filter="url(#blurTiny)">
+        <circle cx="1020" cy="310" r="6" fill="#ffffff"/>
+        <circle cx="980" cy="260" r="4" fill="#ffffff"/>
+        <circle cx="620" cy="430" r="5" fill="#ffffff"/>
+        <circle cx="700" cy="260" r="4" fill="#ffffff"/>
+      </g>
+    </g>
+  </g>
+</svg>
