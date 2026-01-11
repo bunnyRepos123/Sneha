@@ -15,7 +15,10 @@
     .note-section p{color:inherit}
     .note-section .section-title{color:inherit}
 
-    .sky-title{font-family:'Playfair Display', Georgia, serif;font-weight:700;letter-spacing:0.3px;font-size:1.25rem;line-height:1.25;color:#eaf4ff;text-shadow:0 0 14px rgba(143,211,255,0.35), 0 0 24px rgba(255,77,166,0.16);margin:4px 0 10px 0}
+    .sky-title{font-family:'Playfair Display', Georgia, serif;font-weight:700;letter-spacing:0.2px;font-size:clamp(0.78rem, 3.0vw, 1.25rem);line-height:1.25;color:#eaf4ff;text-shadow:0 0 14px rgba(143,211,255,0.35), 0 0 24px rgba(255,77,166,0.16);margin:4px 0 10px 0;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;display:block}
+    @media (max-width:520px){
+      .sky-title{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.2}
+    }
 
     /* Star map */
     .star-map{width:100%;max-width:820px;height:300px;border-radius:12px;background:linear-gradient(180deg,#071426 0%,#020617 100%);position:relative;overflow:hidden}
@@ -115,15 +118,14 @@
   <script>
     (function(){
       const messages = [
-        "Hello beautiful — do you remember the day,Aug 21st,06:05 in clock at Kalyani station , when we promised not to leave each other ever?",
+        "Hey!! Do you Remember March,20 when we walked together at Bandel station? Those moments really means a lot to me.",
+        "April,17 at Howrah station, when you allowed me to hold your hand for first time ever, made me feel so special",
+        "Hello beautiful — do you remember the day,Aug 21st,06:05 PM in the clock at Kalyani station , when we promised not to leave each other ever?",
+        "I hope atleast you remember Dec,13",
         "I miss our late-night talk, laughter and your silly jokes. You just make the day better.",
         "I’m truly sorry for the hard times.I wish I could turn back time and make things right.", 
-        "Sending a virtual hug — I hope you feel my love and warmth someday.",
-        "Do you Remember when we walked together at Bandel station? Those moments means a lot to me.",
-        " I’ll be here — with patient and open to listen.",
-        "Your smile lights up my world, even on the darkest days.",
-        "Now the hardest part - I don't know how much time I have to wait but I still choose to wait for you.",
-        "As the final act of my love, I will be silenltly standing in your shadow, watching you grow and shine.",
+        "Every moment with you is a treasure I hold close to my heart.",
+        "I really miss You a lot! It's already been 3 years and I am just trying to hold on to those memories we shared.",
         "As a final note, I want you to know that you are valued and cherished more than words can express. Wishing you a day filled with love, laughter, and all the things that bring you joy and makes you smile."
       ];
 
@@ -220,7 +222,7 @@
 
       // Moon interactive note
       const moon = document.getElementById('moon');
-      const moonMessage = `Under this quiet moon I want you to know how much you mean to me. I’m sorry for the times I hurt you — I cherish the memories we shared and I hope for a chance to make things right. Happy Birthday, Sneha.`;
+      const moonMessage = `Now the hardest part - I don't know how much time I have to wait but I still choose to wait for you. As the final act of my love, I will be silently standing in your shadow, watching you grow and shine.`;
       if(moon){
         moon.addEventListener('click', showMoon);
         moon.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); showMoon(); } });
@@ -280,6 +282,76 @@
       }
       // start typing shortly after load for a pleasant effect
       setTimeout(typeNote, 350);
+
+      // Gallery lightbox behavior (click a photo to view it larger)
+      const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+      if(galleryItems.length){
+        const galleryImages = galleryItems.map(b => b.querySelector('img')?.src).filter(Boolean);
+        let lightbox = null;
+        let currentGalleryIndex = 0;
+
+        function ensureLightbox(){
+          if(lightbox) return;
+          lightbox = document.createElement('div');
+          lightbox.className = 'lightbox';
+          lightbox.innerHTML = `
+            <div class="lightbox-inner" role="dialog" aria-modal="true" aria-label="Image viewer">
+              <button class="lightbox-close" aria-label="Close">✕</button>
+              <button class="lightbox-prev" aria-label="Previous image">◀</button>
+              <div class="lightbox-content"><img src="" alt=""></div>
+              <button class="lightbox-next" aria-label="Next image">▶</button>
+            </div>`;
+          document.body.appendChild(lightbox);
+
+          const closeBtn = lightbox.querySelector('.lightbox-close');
+          const prevBtn = lightbox.querySelector('.lightbox-prev');
+          const nextBtn = lightbox.querySelector('.lightbox-next');
+
+          closeBtn.addEventListener('click', closeLightbox);
+          prevBtn.addEventListener('click', ()=> showImage(currentGalleryIndex-1));
+          nextBtn.addEventListener('click', ()=> showImage(currentGalleryIndex+1));
+
+          lightbox.addEventListener('click',(e)=>{ if(e.target===lightbox) closeLightbox(); });
+          document.addEventListener('keydown',(e)=>{
+            if(!lightbox || !lightbox.classList.contains('visible')) return;
+            if(e.key==='Escape') closeLightbox();
+            else if(e.key==='ArrowLeft') showImage(currentGalleryIndex-1);
+            else if(e.key==='ArrowRight') showImage(currentGalleryIndex+1);
+          });
+        }
+
+        function openLightbox(index){
+          ensureLightbox();
+          currentGalleryIndex = index;
+          showImage(index);
+          lightbox.classList.add('visible');
+          const closeBtn = lightbox.querySelector('.lightbox-close');
+          if(closeBtn) closeBtn.focus();
+        }
+
+        function showImage(index){
+          if(!lightbox) return;
+          if(index < 0) index = galleryImages.length - 1;
+          if(index >= galleryImages.length) index = 0;
+          currentGalleryIndex = index;
+          const img = lightbox.querySelector('.lightbox-content img');
+          img.src = galleryImages[index];
+          img.alt = 'Photo ' + (index+1);
+        }
+
+        function closeLightbox(){
+          if(!lightbox) return;
+          lightbox.classList.remove('visible');
+          setTimeout(()=>{ const img = lightbox.querySelector('.lightbox-content img'); if(img) img.src=''; }, 250);
+          const btn = galleryItems[currentGalleryIndex];
+          if(btn) btn.focus();
+        }
+
+        galleryItems.forEach((btn, idx)=>{
+          btn.addEventListener('click',()=> openLightbox(idx));
+          btn.addEventListener('keydown',(e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openLightbox(idx); } });
+        });
+      }
 
 
     })();
