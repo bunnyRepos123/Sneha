@@ -94,6 +94,18 @@ body::after{display:none}
 .star{fill:#fff;opacity:0.98;cursor:pointer}
 .star:hover{filter:drop-shadow(0 0 8px rgba(255,255,255,0.12))}
 
+/* Constellation lines (behind stars; non-interactive) */
+.star-map .constellation{pointer-events:none}
+.star-map .constellation polyline{
+  fill:none;
+  stroke:rgba(208,230,255,0.22);
+  stroke-width:0.38;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:1.4 1.8;
+  filter:drop-shadow(0 0 8px rgba(208,230,255,0.10));
+}
+
 /* Modal */
 .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);visibility:hidden;opacity:0;transition:opacity .2s ease;z-index:20000;pointer-events:none}
 .modal.visible{visibility:visible;opacity:1;pointer-events:auto}
