@@ -148,6 +148,26 @@
         starPositions.push([x,y,i]);
       }
 
+      // Constellation: connect a curated set of stars to form a subtle shape
+      (function drawConstellation(){
+        if(!svg || !starPositions.length) return;
+        const ns = 'http://www.w3.org/2000/svg';
+        // Connect in sequence (star 1 -> star 2 -> ...), based on the generated positions
+        const constellationIndices = starPositions.map((_, idx) => idx);
+        if(constellationIndices.length < 2) return;
+
+        const g = document.createElementNS(ns, 'g');
+        g.setAttribute('class', 'constellation');
+        const poly = document.createElementNS(ns, 'polyline');
+        poly.setAttribute('points', constellationIndices.map(i => `${starPositions[i][0]},${starPositions[i][1]}`).join(' '));
+        g.appendChild(poly);
+
+        // Place behind the moon (and behind dynamic stars)
+        const moonEl = svg.querySelector('#moon');
+        if(moonEl) svg.insertBefore(g, moonEl);
+        else svg.insertBefore(g, svg.firstElementChild);
+      })();
+
       // helper: returns a normalized 5-point star path centered at 0,0 with outer radius 1
       function normalizedStarPath(){
         const spikes = 5; const outer = 1; const inner = 0.45; let rot = Math.PI / 2 * 3; let path = '';
