@@ -23,7 +23,7 @@ body.locked{overflow:hidden}
 .lock-input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(0,0,0,0.18);font-size:1rem;outline:none}
 .lock-input:focus{border-color:rgba(255,77,166,0.7);box-shadow:0 0 0 3px rgba(255,77,166,0.18)}
 .lock-error{min-height:1.2em;margin:2px 0 0 0;color:#b00020;font-size:0.95rem}
-
+.sky-title{...; color:#ffd166; text-shadow:0 0 14px rgba(255,209,102,0.28), 0 0 24px rgba(255,77,166,0.10); ...}
 /* Mobile responsive sizing (keeps desktop-like proportions without overflow) */
 .card,.note-section{width:min(100%, 820px)}
 #star-map-section{width:min(100%, 720px)}
@@ -210,3 +210,4 @@ button{padding:10px 14px;border-radius:10px}
 @media (prefers-reduced-motion: reduce) {
   .confetti { animation: none; transform: translateY(60vh); }
 }
+
