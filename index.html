@@ -9,7 +9,7 @@
     html,body{height:100%;margin:0}
     body{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:18px;min-height:100vh;font-family:Arial, Helvetica, sans-serif;background:transparent;padding:24px 0}
     .card{text-align:center;padding:0;max-width:820px;width:100%;background:transparent;border:0;box-shadow:none;border-radius:0;backdrop-filter:none;color:#333;font-family:'Playfair Display', Georgia, serif}
-    h1{font-size:3rem;margin:0;color:var(--accent)}
+    h1{margin:0;color:#eaf4ff;font-family:'Playfair Display', Georgia, serif;font-weight:700;font-style:italic;letter-spacing:0.3px;text-shadow:0 0 14px rgba(143,211,255,0.35), 0 0 24px rgba(255,77,166,0.16)}
     p{margin-top:12px;color:#333;font-size:1.05rem}
     .note-section{max-width:820px;padding:20px 18px;text-align:center;background:rgba(255,77,166,0.03);border-radius:10px;color:#eaf4ff;font-size:1.05rem}
     .note-section p{color:inherit}
@@ -57,66 +57,135 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="card">
-    <h1>Happy Birthday, Sneha!!</h1>
-  </main>
-
-  <section id="note" class="note-section">
-    <p class="typed-note" aria-live="polite" data-full="Happy Birthday, Sneha. Today I celebrate you — your smile, your kindness, and the light you bring into the world. I’m sorry about hard times. I really miss the way we laughed together and I’ll be still there to make things right. May this year bring you the joy and love you so richly deserve."><span class="typed-text" aria-hidden="false"></span></p>
-  </section>
-
-  <section id="star-map-section">
-    <h3 class="section-title sky-title">A little sky of our memories -- you can click on Stars & Moon</h3>
-    <div class="star-map" id="starMap" aria-hidden="false">
-      <svg viewBox="0 0 100 50" preserveAspectRatio="none" id="starSvg">
-        <!-- decorative moon -->
-        <defs>
-          <radialGradient id="moonGlow" cx="82" cy="8" r="8" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#d8ecff" stop-opacity="0.95" />
-            <stop offset="1" stop-color="#d8ecff" stop-opacity="0" />
-          </radialGradient>
-        </defs>
-        <g id="moon" class="moon" role="button" tabindex="0" aria-label="Open a moonlit message">
-          <title>Moon note</title>
-          <circle cx="82" cy="8" r="5" fill="#fff"></circle>
-          <!-- crescent using overlapping dark circle to carve shape -->
-          <circle cx="83.4" cy="7.4" r="4.6" fill="#071426"></circle>
-          <!-- subtle glow -->
-          <circle cx="82" cy="8" r="7" fill="url(#moonGlow)" opacity="0.9"></circle>
-        </g>
-        <!-- ring for hint/pulse (hidden by default) -->
-        <circle class="moon-ring" cx="82" cy="8" r="8" fill="none" stroke="rgba(208,230,255,0.18)" stroke-width="0.8" opacity="0"></circle>
-      </svg>
-      <div class="moon-hint" id="moonHint" aria-hidden="true">Tap the moon</div>
-      <p class="muted">Tap a star to read a memory.</p>
+  <!-- Password gate (client-side deterrent; not true security) -->
+  <div id="lockScreen" class="lock-screen" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+    <div class="lock-card">
+      <h2 id="lockTitle" class="lock-title">Enter Password</h2>
+      <p class="lock-subtitle">This page is private.</p>
+      <form id="lockForm" class="lock-form" autocomplete="off">
+        <label class="lock-label" for="lockPassword">Password</label>
+        <input id="lockPassword" class="lock-input" type="password" inputmode="text" autocomplete="off" required>
+        <button class="lock-button" type="submit">Unlock</button>
+        <p id="lockError" class="lock-error" aria-live="polite"></p>
+      </form>
     </div>
-  </section>
+  </div>
 
-  <section id="gallery" aria-label="Photos" class="note-section">
-    <h3 class="section-title">Photos</h3>
-    <div class="gallery-grid" role="list">
-      <button class="gallery-item" data-index="0" role="button" aria-label="Photo 1"><img src="assets/images/image1.jpg" alt="Photo 1"></button>
-      <button class="gallery-item" data-index="1" role="button" aria-label="Photo 2"><img src="assets/images/image7.jpg" alt="Photo 2"></button>
-      <button class="gallery-item" data-index="2" role="button" aria-label="Photo 3"><img src="assets/images/image2.jpg" alt="Photo 3"></button>
-      <button class="gallery-item" data-index="3" role="button" aria-label="Photo 4"><img src="assets/images/image4.jpg" alt="Photo 4"></button>
-      <button class="gallery-item" data-index="4" role="button" aria-label="Photo 5"><img src="assets/images/image5.jpg" alt="Photo 5"></button>
-      <button class="gallery-item" data-index="5" role="button" aria-label="Photo 6"><img src="assets/images/image8.jpg" alt="Photo 6"></button>
-      <button class="gallery-item" data-index="6" role="button" aria-label="Photo 7"><img src="assets/images/image3.jpg" alt="Photo 7"></button>
-      <button class="gallery-item" data-index="7" role="button" aria-label="Photo 8"><img src="assets/images/image6.jpg" alt="Photo 8"></button>
-    </div>
-    <p class="muted">Tap a photo to view it larger.</p>
-  </section>
+  <div id="appContent" class="app-content">
+    <main class="card">
+      <h1>Happy Birthday, Sneha!!</h1>
+    </main>
 
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal-card">
-      <h4 id="modalTitle" class="section-title">Message</h4>
-      <p id="modalContent">...</p>
-      <button id="modalClose" class="modal-close">Close</button>
+    <section id="note" class="note-section">
+      <p class="typed-note" aria-live="polite" data-full="Happy Birthday, Sneha. Today I celebrate you — your smile, your kindness, and the light you bring into the world. I’m sorry about hard times. I really miss the way we laughed together and I’ll be still there to make things right. May this year bring you the joy and love you so richly deserve."><span class="typed-text" aria-hidden="false"></span></p>
+    </section>
+
+    <section id="star-map-section">
+      <h3 class="section-title sky-title">A little sky of our memories -- you can click on Stars & Moon</h3>
+      <div class="star-map" id="starMap" aria-hidden="false">
+        <svg viewBox="0 0 100 50" preserveAspectRatio="none" id="starSvg">
+          <!-- decorative moon -->
+          <defs>
+            <radialGradient id="moonGlow" cx="82" cy="8" r="8" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#d8ecff" stop-opacity="0.95" />
+              <stop offset="1" stop-color="#d8ecff" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+          <g id="moon" class="moon" role="button" tabindex="0" aria-label="Open a moonlit message">
+            <title>Moon note</title>
+            <circle cx="82" cy="8" r="5" fill="#fff"></circle>
+            <!-- crescent using overlapping dark circle to carve shape -->
+            <circle cx="83.4" cy="7.4" r="4.6" fill="#071426"></circle>
+            <!-- subtle glow -->
+            <circle cx="82" cy="8" r="7" fill="url(#moonGlow)" opacity="0.9"></circle>
+          </g>
+          <!-- ring for hint/pulse (hidden by default) -->
+          <circle class="moon-ring" cx="82" cy="8" r="8" fill="none" stroke="rgba(208,230,255,0.18)" stroke-width="0.8" opacity="0"></circle>
+        </svg>
+        <div class="moon-hint" id="moonHint" aria-hidden="true">Tap the moon</div>
+        <p class="muted">Tap a star to read a memory.</p>
+      </div>
+    </section>
+
+    <section id="gallery" aria-label="Photos" class="note-section">
+      <h3 class="section-title">Photos</h3>
+      <div class="gallery-grid" role="list">
+        <button class="gallery-item" data-index="0" role="button" aria-label="Photo 1"><img src="assets/images/image1.jpg" alt="Photo 1"></button>
+        <button class="gallery-item" data-index="1" role="button" aria-label="Photo 2"><img src="assets/images/image7.jpg" alt="Photo 2"></button>
+        <button class="gallery-item" data-index="2" role="button" aria-label="Photo 3"><img src="assets/images/image2.jpg" alt="Photo 3"></button>
+        <button class="gallery-item" data-index="3" role="button" aria-label="Photo 4"><img src="assets/images/image4.jpg" alt="Photo 4"></button>
+        <button class="gallery-item" data-index="4" role="button" aria-label="Photo 5"><img src="assets/images/image5.jpg" alt="Photo 5"></button>
+        <button class="gallery-item" data-index="5" role="button" aria-label="Photo 6"><img src="assets/images/image8.jpg" alt="Photo 6"></button>
+        <button class="gallery-item" data-index="6" role="button" aria-label="Photo 7"><img src="assets/images/image3.jpg" alt="Photo 7"></button>
+        <button class="gallery-item" data-index="7" role="button" aria-label="Photo 8"><img src="assets/images/image6.jpg" alt="Photo 8"></button>
+      </div>
+      <p class="muted">Tap a photo to view it larger.</p>
+    </section>
+
+    <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-card">
+        <h4 id="modalTitle" class="section-title">Message</h4>
+        <p id="modalContent">...</p>
+        <button id="modalClose" class="modal-close">Close</button>
+      </div>
     </div>
   </div>
 
   <script>
     (function(){
+      // Password gate (client-side deterrent)
+      // Change this password to anything you want.
+      const ACCESS_PASSWORD = 'sneha123';
+      const UNLOCK_KEY = 'birthday_surprise_unlocked_v1';
+
+      const lockScreen = document.getElementById('lockScreen');
+      const lockForm = document.getElementById('lockForm');
+      const lockPassword = document.getElementById('lockPassword');
+      const lockError = document.getElementById('lockError');
+      const appContent = document.getElementById('appContent');
+
+      function setLocked(isLocked){
+        document.body.classList.toggle('locked', isLocked);
+        if(appContent) appContent.style.display = isLocked ? 'none' : '';
+        if(lockScreen) lockScreen.classList.toggle('visible', isLocked);
+      }
+
+      function unlock(){
+        sessionStorage.setItem(UNLOCK_KEY, '1');
+        setLocked(false);
+        init();
+      }
+
+      function fail(msg){
+        if(lockError) lockError.textContent = msg;
+        if(lockPassword){
+          lockPassword.value = '';
+          lockPassword.focus();
+        }
+      }
+
+      function initGate(){
+        const alreadyUnlocked = sessionStorage.getItem(UNLOCK_KEY) === '1';
+        if(alreadyUnlocked){
+          setLocked(false);
+          init();
+          return;
+        }
+        setLocked(true);
+        if(lockPassword) setTimeout(()=> lockPassword.focus(), 0);
+        if(lockForm){
+          lockForm.addEventListener('submit', (e)=>{
+            e.preventDefault();
+            const value = (lockPassword?.value || '').trim();
+            if(!value) return fail('Enter the password.');
+            if(value !== ACCESS_PASSWORD) return fail('Wrong password. Try again.');
+            unlock();
+          });
+        }
+      }
+
+      // Main app logic (runs only after unlock)
+      function init(){
       const messages = [
         "Hey!! Do you Remember March,20 when we walked together at Bandel station? Those moments really means a lot to me.",
         "April,17 at Howrah station, when you allowed me to hold your hand for first time ever, made me feel so special",
@@ -373,7 +442,9 @@
         });
       }
 
+      } // end init()
 
+      initGate();
     })();
   </script>
 
